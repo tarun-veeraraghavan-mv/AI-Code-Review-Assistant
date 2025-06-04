@@ -1,0 +1,87 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+}
+
+.scorecard-container {
+  max-width: 400px;
+  background-color: #1e1e1e;
+  color: #ffffff;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  font-family: Arial, sans-serif;
+}
+
+.scorecard-title {
+  color: #facc15; /* gold/yellow */
+  font-size: 18px;
+  margin-bottom: 12px;
+}
+
+.scorecard-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.scorecard-stats {
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.scorecard-stats span {
+  font-weight: bold;
+  color: #aaa;
+}
+
+.scorecard-ring {
+  width: 64px;
+  height: 64px;
+}
+
+/* IDE Settings */
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 12px;
+  gap: 8px;
+  height: 36px;
+  width: 120px;
+  border: none;
+  background: #5e41de33;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.lable {
+  line-height: 20px;
+  font-size: 17px;
+  color: #5d41de;
+  font-family: sans-serif;
+  letter-spacing: 1px;
+}
+
+.button:hover {
+  background: #5e41de4d;
+}
+
+.button:hover .svg-icon {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
