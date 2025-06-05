@@ -1,31 +1,26 @@
 import { useState } from "react";
 import { useInputs } from "../hooks/useInputs";
-import RenderList from "../utils/renderList";
 import CodeEditorPanel from "./CodeEditorPanel";
 import CodeStandardsUpload from "./CodeStandardsUpload";
-import ScoreCard from "./ScoreCard";
 
-import { downloadPDF } from "../utils/fileSave";
-import SettingsParentComp from "./SettingsParentComp";
-import AppButton from "./AppButton";
 import CodeEditorUtils from "./CodeEditorUtils";
-import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
 import CodeReport from "./CodeReport";
+import Navbar from "./Navbar";
+import SettingsParentComp from "./SettingsParentComp";
+import Sidebar from "./Sidebar";
 
 export default function TestComp() {
   const { inputs, setInputs, addInput, deleteInput, updateInput, clearInput } =
     useInputs();
-
-  const [review, setReview] = useState("");
-
   const [editorSettings, setEditorSettings] = useState({
     tabSize: 2,
     fontSize: 16,
     theme: "vs-dark",
   });
-
   const [currentCellIndex, setCurrentCellIndex] = useState(0);
+  const [fileContent, setFileContent] = useState(
+    "User did not provide any standards"
+  );
 
   function handleDeleteCell(index) {
     const res = window.confirm(
@@ -40,7 +35,7 @@ export default function TestComp() {
     <div style={{ padding: "10px" }}>
       <Navbar />
 
-      <CodeStandardsUpload />
+      <CodeStandardsUpload setFileContent={setFileContent} />
 
       <div
         style={{
@@ -68,7 +63,7 @@ export default function TestComp() {
                     input={input}
                     updateInput={updateInput}
                     inputs={inputs}
-                    setReview={setReview}
+                    codeStandards={fileContent}
                   />
 
                   <CodeEditorPanel
@@ -85,17 +80,6 @@ export default function TestComp() {
       </div>
 
       <SettingsParentComp setEditorSettings={setEditorSettings} />
-
-      <div>
-        {review !== "" && (
-          <div style={{ marginTop: "50px" }}>
-            <div>
-              <button onClick={downloadPDF}>Donwload report as PDF</button>
-            </div>
-            <CodeReport review={review} />
-          </div>
-        )}
-      </div>
     </div>
   );
 }

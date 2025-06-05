@@ -42,7 +42,7 @@ exports.login = async (req, res) => {
     expiresIn: "90d",
   });
 
-  res.status(200).json({ token });
+  res.status(200).json({ token, user });
 };
 
 exports.me = async (req, res) => {

@@ -1,41 +1,27 @@
-import { useState } from "react";
-import AppButton from "./AppButton";
+import React, { useState } from "react";
 import Navbar from "./Navbar";
-import { register } from "../utils/api";
+import AppButton from "./AppButton";
+import { login as loginApi } from "../utils/api";
 import { useAuth } from "../contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
-import AppLink from "./AppLink";
+import { useNavigate } from "react-router-dom";
 
-export default function Signin() {
-  const [name, setName] = useState("");
+export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState("");
-  const { signin, handleToken } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    try {
-      setLoading(true);
-      const user = await register(name, email, password);
-      console.log(user);
-      signin(user.user);
-      handleToken(user.token);
+    const x = await loginApi(email, password);
+    console.log(x);
+    login(x.user);
 
-      setName("");
-      setEmail("");
-      setPassword("");
+    setEmail("");
+    setPassword("");
 
-      alert("User created successfully");
-
-      navigate("/");
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
+    navigate("/");
   }
 
   return (
@@ -58,34 +44,6 @@ export default function Signin() {
           style={{ display: "flex", flexDirection: "column", gap: "15px" }}
           onSubmit={handleSubmit}
         >
-          <div>
-            <label
-              htmlFor="name"
-              style={{
-                display: "block",
-                marginBottom: "5px",
-                fontSize: "20px",
-                color: "#333",
-              }}
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              placeholder="John Doe"
-              style={{
-                width: "100%",
-                padding: "10px",
-                border: "1px solid #ccc",
-                borderRadius: "5px",
-                fontSize: "18px",
-              }}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            />
-          </div>
           <div>
             <label
               htmlFor="email"
@@ -142,12 +100,7 @@ export default function Signin() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <AppButton disabled={loading} backgroundColor="#007bff">
-            Sign In
-          </AppButton>
-          <AppLink path="/login" backgroundColor="#888">
-            Log in
-          </AppLink>
+          <AppButton backgroundColor="#007bff">Log In</AppButton>
         </form>
       </div>
     </div>

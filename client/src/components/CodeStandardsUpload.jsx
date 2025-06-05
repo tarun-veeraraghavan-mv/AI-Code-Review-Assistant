@@ -1,8 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { codeStandardsUpload, getCodeStandardsForUser } from "../utils/api";
+import { useAuth } from "../contexts/AuthContext";
 
-export default function CodeStandardsUpload() {
+export default function CodeStandardsUpload({ setFileContent }) {
   const [file, setFile] = useState(null);
-  const [fileContent, setFileContent] = useState("");
+  const { user } = useAuth();
+
+  useEffect(() => {
+    async function fetchCodeStandards() {
+      const res = await getCodeStandardsForUser();
+      console.log(res);
+    }
+    fetchCodeStandards();
+  }, []);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -10,13 +20,20 @@ export default function CodeStandardsUpload() {
 
     setFile(selectedFile);
     const reader = new FileReader();
-    reader.onload = (event) => {
-      setFileContent(event.target?.result);
+    reader.onload = async (event) => {
+      const fileContent = event.target?.result;
+      setFileContent(fileContent);
+
+      // Upload the code standards to the backend
+      try {
+        const response = await codeStandardsUpload(fileContent, user?._id);
+        console.log("Code standards uploaded successfully:", response);
+      } catch (err) {
+        console.error("Error uploading code standards:", err);
+      }
     };
     reader.readAsText(selectedFile);
   };
-
-  console.log(fileContent);
 
   return (
     <div style={{ marginBottom: "20px" }}>

@@ -1,25 +1,30 @@
-import React from "react";
 import AppButton from "./AppButton";
 import { useCodeReviewLLM } from "../hooks/useCodeReviewLLM";
+import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function CodeEditorUtils({
   index,
   updateInput,
   clearInput,
   inputs,
-  setReview,
+  codeStandards,
 }) {
-  const { getAi, loading } = useCodeReviewLLM();
+  const { user } = useAuth();
+  const userId = user?._id;
+  const { getAi, loading } = useCodeReviewLLM(user?._id);
+  const navigate = useNavigate();
 
   async function getAiRequest() {
     try {
       const question = window.confirm(
         "Are you sure you want to start the code review process"
       );
+      console.log(userId);
       if (question) {
-        const res = await getAi(inputs);
-        console.log(res);
-        setReview(res);
+        const res = await getAi(inputs, codeStandards, userId);
+        console.log(res, codeStandards);
+        navigate(`/report/${res._id}`);
       }
     } catch (err) {
       console.log(err);

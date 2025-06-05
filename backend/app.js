@@ -4,6 +4,15 @@ const cors = require("cors");
 const JSON5 = require("json5");
 const { reviewBotPrompt } = require("./prompts/reviewBotPrompt");
 const { register, me, login } = require("./controllers/userController");
+const CodeReview = require("./models/CodeReview");
+const {
+  getAllReportsForUser,
+  getReportById,
+} = require("./controllers/reportController");
+const {
+  uploadCodeStandards,
+  getCodeStandardsForUser,
+} = require("./controllers/codeStandardsController");
 
 mongoose
   .connect(
@@ -17,13 +26,15 @@ app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
 
 app.post("/api/v1/llm/completion", async (req, res) => {
-  const { code } = req.body;
+  const { code, codeStandards, userId } = req.body;
+
+  console.log(codeStandards);
 
   const result = await fetch("https://openrouter.ai/api/v1/chat/completions", {
     method: "POST",
     headers: {
       Authorization:
-        "Bearer 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",
+        "Bearer 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",
       "HTTP-Referer": "<YOUR_SITE_URL>", // Optional. Site URL for rankings on openrouter.ai.
       "X-Title": "<YOUR_SITE_NAME>", // Optional. Site title for rankings on openrouter.ai.
       "Content-Type": "application/json",
@@ -33,7 +44,7 @@ app.post("/api/v1/llm/completion", async (req, res) => {
       messages: [
         {
           role: "system",
-          content: `${reviewBotPrompt}`,
+          content: reviewBotPrompt(codeStandards),
         },
         {
           role: "user",
@@ -50,14 +61,26 @@ app.post("/api/v1/llm/completion", async (req, res) => {
     .replace(/```json|```/gi, "")
     .trim();
 
-  console.log(JSON5.parse(cleaned));
+  const parsed = JSON5.parse(cleaned);
+  const finalCode = { ...parsed, userId };
+  console.log(finalCode);
 
-  res.json(cleaned);
+  const report = await CodeReview.create(finalCode);
+
+  res.json(report);
 });
 
 app.post("/api/v1/users/register", register);
 app.post("/api/v1/users/login", login);
 app.post("/api/v1/users/me", me);
+
+// reports
+app.get("/api/v1/reviews", getAllReportsForUser);
+app.get("/api/v1/reviews/:reportId", getReportById);
+
+// code standards
+app.post("/api/v1/codeStandards", uploadCodeStandards);
+app.get("/api/v1/codeStandards", getCodeStandardsForUser);
 
 app.listen(3000, () => {
   console.log("Server is running on http://localhost:3000");
