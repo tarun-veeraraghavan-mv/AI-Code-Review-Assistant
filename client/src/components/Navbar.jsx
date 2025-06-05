@@ -10,7 +10,7 @@ export default function Navbar() {
         justifyContent: "space-between",
         alignItems: "center",
         padding: "10px 20px",
-        backgroundColor: "#007bff",
+        backgroundColor: "#212529",
         boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
         borderRadius: "5px",
         marginBottom: "20px",
@@ -32,8 +32,8 @@ export default function Navbar() {
       <div style={{ display: "flex", gap: "10px" }}>
         <button
           style={{
-            backgroundColor: "#28a745",
-            color: "#fff",
+            backgroundColor: "#E9ECEF",
+            color: "#333",
             border: "none",
             borderRadius: "5px",
             padding: "10px 20px",
@@ -51,7 +51,7 @@ export default function Navbar() {
         <button
           onClick={() => (window.location.href = "/signin")}
           style={{
-            backgroundColor: "#ffc107",
+            backgroundColor: "#007BFF",
             color: "#fff",
             border: "none",
             borderRadius: "5px",

@@ -55,7 +55,7 @@ body {
   height: 36px;
   width: 120px;
   border: none;
-  background: #5e41de33;
+  background: #dce7f3;
   border-radius: 20px;
   cursor: pointer;
 }
@@ -63,13 +63,13 @@ body {
 .lable {
   line-height: 20px;
   font-size: 17px;
-  color: #5d41de;
+  color: #007bff;
   font-family: sans-serif;
   letter-spacing: 1px;
 }
 
 .button:hover {
-  background: #5e41de4d;
+  background: #a7c2e0;
 }
 
 .button:hover .svg-icon {

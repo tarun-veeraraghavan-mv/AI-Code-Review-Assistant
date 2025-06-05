@@ -15,7 +15,7 @@ export default function SettingsButton({ setOpen }) {
           fill="none"
           className="svg-icon"
         >
-          <g strokeWidth="1.5" strokeLinecap="round" stroke="#5d41de">
+          <g strokeWidth="1.5" strokeLinecap="round" stroke="#007BFF">
             <circle r="2.5" cy="10" cx="10"></circle>
             <path
               fillRule="evenodd"

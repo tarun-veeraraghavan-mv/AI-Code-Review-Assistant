@@ -1,8 +1,10 @@
-export default function SettingsPanel({ setEditorSettings }) {
+import AppButton from "./AppButton";
+
+export default function SettingsPanel({ setEditorSettings, setOpen }) {
   return (
     <div
       style={{
-        padding: "20px",
+        padding: "10px 20px",
         position: "absolute",
         top: "40px",
         right: "80px",
@@ -12,10 +14,32 @@ export default function SettingsPanel({ setEditorSettings }) {
         zIndex: 1000,
       }}
     >
-      <h2>Settings</h2>
-      <div>
-        <div>
-          <label htmlFor="tabSize">Tab Size</label>
+      <h2
+        style={{
+          marginBottom: "20px",
+        }}
+      >
+        Settings
+      </h2>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+          marginBottom: "30px",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            gap: "20px",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <label htmlFor="tabSize" style={{ fontSize: "20px" }}>
+            Tab Size
+          </label>
           <select
             name="tabSize"
             id="tabSize"
@@ -25,13 +49,23 @@ export default function SettingsPanel({ setEditorSettings }) {
                 tabSize: parseInt(e.target.value),
               }))
             }
+            style={{ fontSize: "18px", padding: "5px 10px" }}
           >
             <option value="2">2 Spaces</option>
             <option value="4">4 Spaces</option>
           </select>
         </div>
-        <div>
-          <label htmlFor="theme">Theme</label>
+        <div
+          style={{
+            display: "flex",
+            gap: "20px",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <label htmlFor="theme" style={{ fontSize: "20px" }}>
+            Theme
+          </label>
           <select
             name="theme"
             id="theme"
@@ -41,14 +75,24 @@ export default function SettingsPanel({ setEditorSettings }) {
                 theme: e.target.value,
               }))
             }
+            style={{ fontSize: "18px", padding: "5px 10px" }}
           >
             <option value="vs-dark">vs-dark</option>
             <option value="vs-light">vs-light</option>
             <option value="hc-black">hc-black</option>
           </select>
         </div>
-        <div>
-          <label htmlFor="fontSize">Font size</label>
+        <div
+          style={{
+            display: "flex",
+            gap: "20px",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <label htmlFor="fontSize" style={{ fontSize: "20px" }}>
+            Font size
+          </label>
           <input
             type="number"
             min={0}
@@ -62,9 +106,13 @@ export default function SettingsPanel({ setEditorSettings }) {
                 fontSize: parseInt(e.target.value),
               }))
             }
+            style={{ fontSize: "18px", padding: "5px 10px" }}
           />
         </div>
       </div>
+      <AppButton backgroundColor="#999" onClick={() => setOpen(false)}>
+        Close
+      </AppButton>
     </div>
   );
 }

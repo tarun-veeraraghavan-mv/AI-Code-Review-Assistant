@@ -2,6 +2,15 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const JSON5 = require("json5");
+const { reviewBotPrompt } = require("./prompts/reviewBotPrompt");
+const { register, me, login } = require("./controllers/userController");
+
+mongoose
+  .connect(
+    "mongodb+srv://tarunv1911:ea0cj8dzRV2NhFmT@cluster0.70deyvr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+  )
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log(err));
 
 const app = express();
 app.use(cors({ origin: "http://localhost:5173" }));
@@ -14,7 +23,7 @@ app.post("/api/v1/llm/completion", async (req, res) => {
     method: "POST",
     headers: {
       Authorization:
-        "Bearer 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",
+        "Bearer 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",
       "HTTP-Referer": "<YOUR_SITE_URL>", // Optional. Site URL for rankings on openrouter.ai.
       "X-Title": "<YOUR_SITE_NAME>", // Optional. Site title for rankings on openrouter.ai.
       "Content-Type": "application/json",
@@ -24,41 +33,7 @@ app.post("/api/v1/llm/completion", async (req, res) => {
       messages: [
         {
           role: "system",
-          content: `
-You are an expert code reviewer and senior software engineer. Your job is to analyze a piece of code and give a code review. These are the steps you will take:
-
-1. Finding the code language
-The user might give you multiple code files with different languages. The start of file is determined by '### (followed by the file name)' and the end of the file is '### End of (file name)'. So, use this to find the code block. Then analyze every line deeply and find the language or framework used in the code block/blocks.
-
-2. Code Analysis
-Once, you determined the language / framework used. You will prepare the code review proces. This can be broken down into more steps:
-  - Prepare a code review: gives the number of critical issues, warnings and suggestions found in code and a overall score that you determine based on your expertise. This should be out of 100
-  - Code Summary: Analyze the code blocks and create a concise but contentful summary which tells: what variables / functions were used, what the overall code achives and other analytics
-  - Critical issues: List the critical issues found in code block/blocks
-  - Warnings: List the warnings found in code block/blocks
-  - Suggestions: Provide suggestions to improve the code such as better naming of varaibles, breaking into different functions etc
-
-3. Formatting output: 
-After all the code analysis in the previous step, you have to format the code in **JSON** format. Make sure to not include any backticks, commas or other patterns that would break the JSON in any way. The order of output is:
-
-"{
-  codeReview: {
-    overallScore: number,
-    criticalIssues: number,
-		warnings: number,
-		suggestions: number
-  },
-  codeSummary: [string, string, ...],
-  criticalIssues: [string, string, ...],
-  warnings: [string, string, ...],
-  suggestions: [string, string, ...]
-}"
-
-4. Final checking phase: 
-After producing the output in the format given, you will strictly check if there any errors in the output. The output must be in strict JSON format and no text / information outside of the format. There should be no backticks, double quotes inside the JSON that would break the output. 
-
-The code to review is below:
-`,
+          content: `${reviewBotPrompt}`,
         },
         {
           role: "user",
@@ -79,6 +54,10 @@ The code to review is below:
 
   res.json(cleaned);
 });
+
+app.post("/api/v1/users/register", register);
+app.post("/api/v1/users/login", login);
+app.post("/api/v1/users/me", me);
 
 app.listen(3000, () => {
   console.log("Server is running on http://localhost:3000");

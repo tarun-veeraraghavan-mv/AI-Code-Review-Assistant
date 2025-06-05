@@ -8,7 +8,12 @@ export default function SettingsParentComp({ setEditorSettings }) {
   return (
     <div>
       <SettingsButton setOpen={setOpen} />
-      {open && <SettingsPanel setEditorSettings={setEditorSettings} />}
+      {open && (
+        <SettingsPanel
+          setEditorSettings={setEditorSettings}
+          setOpen={setOpen}
+        />
+      )}
     </div>
   );
 }

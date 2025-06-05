@@ -11,7 +11,7 @@ export default function CodeEditorPanel({
     <div>
       <Editor
         fontSize={editorSettings.fontSize}
-        height="470px"
+        height="550px"
         language={language}
         value={input.content}
         theme={editorSettings.theme}

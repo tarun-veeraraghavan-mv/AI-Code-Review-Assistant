@@ -19,7 +19,7 @@ export default function CodeStandardsUpload() {
   console.log(fileContent);
 
   return (
-    <div style={{ marginBottom: "40px" }}>
+    <div style={{ marginBottom: "20px" }}>
       <p
         style={{
           fontSize: "18px",
@@ -28,8 +28,8 @@ export default function CodeStandardsUpload() {
           fontFamily: "Arial, sans-serif",
         }}
       >
-        Upload any code standard document that you have. The review bot will
-        give suggestions based on it also
+        Upload any code standard document that you have in markdown(.md) format.
+        The review bot will give suggestions based on it also
       </p>
       <input
         type="file"
