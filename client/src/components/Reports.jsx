@@ -4,6 +4,7 @@ import { getAllReportsForUser, getReportById } from "../utils/api";
 import CodeReport from "./CodeReport";
 import { downloadPDF } from "../utils/fileSave";
 import { useAuth } from "../contexts/AuthContext";
+import Navbar from "./Navbar";
 
 export default function Reports() {
   const { reportId } = useParams();
@@ -32,26 +33,12 @@ export default function Reports() {
   console.log(data);
 
   return (
-    <div>
+    <div style={{ padding: "10px" }}>
+      <Navbar />
       {data && (
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "0.3fr 1fr",
-            padding: "10px",
-          }}
-        >
-          <div>
-            <ul>
-              {data2?.map((d) => (
-                <li>{d._id}</li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <button onClick={downloadPDF}>Donwload report as PDF</button>
-            <CodeReport review={data} />
-          </div>
+        <div>
+          <button onClick={downloadPDF}>Donwload report as PDF</button>
+          <CodeReport review={data} />
         </div>
       )}
     </div>

@@ -34,7 +34,7 @@ app.post("/api/v1/llm/completion", async (req, res) => {
     method: "POST",
     headers: {
       Authorization:
-        "Bearer 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",
+        "Bearer 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",
       "HTTP-Referer": "<YOUR_SITE_URL>", // Optional. Site URL for rankings on openrouter.ai.
       "X-Title": "<YOUR_SITE_NAME>", // Optional. Site title for rankings on openrouter.ai.
       "Content-Type": "application/json",

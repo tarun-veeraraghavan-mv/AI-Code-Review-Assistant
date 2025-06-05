@@ -79,7 +79,10 @@ export default function TestComp() {
         </div>
       </div>
 
-      <SettingsParentComp setEditorSettings={setEditorSettings} />
+      <SettingsParentComp
+        setEditorSettings={setEditorSettings}
+        editorSettings={editorSettings}
+      />
     </div>
   );
 }

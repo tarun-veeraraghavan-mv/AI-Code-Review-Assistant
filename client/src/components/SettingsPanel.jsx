@@ -1,6 +1,11 @@
+import React from "react";
 import AppButton from "./AppButton";
 
-export default function SettingsPanel({ setEditorSettings, setOpen }) {
+export default function SettingsPanel({
+  setEditorSettings,
+  setOpen,
+  editorSettings,
+}) {
   return (
     <div
       style={{
@@ -43,6 +48,7 @@ export default function SettingsPanel({ setEditorSettings, setOpen }) {
           <select
             name="tabSize"
             id="tabSize"
+            value={editorSettings.tabSize}
             onChange={(e) =>
               setEditorSettings((prev) => ({
                 ...prev,
@@ -69,6 +75,7 @@ export default function SettingsPanel({ setEditorSettings, setOpen }) {
           <select
             name="theme"
             id="theme"
+            value={editorSettings.theme}
             onChange={(e) =>
               setEditorSettings((prev) => ({
                 ...prev,
@@ -99,7 +106,7 @@ export default function SettingsPanel({ setEditorSettings, setOpen }) {
             max={30}
             id="fontSize"
             name="fontSize"
-            defaultValue={16}
+            value={editorSettings.fontSize}
             onChange={(e) =>
               setEditorSettings((prev) => ({
                 ...prev,

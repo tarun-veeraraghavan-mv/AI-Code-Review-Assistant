@@ -1,8 +1,12 @@
+import React from "react";
 import { useState } from "react";
 import SettingsButton from "./SettingsButton";
 import SettingsPanel from "./SettingsPanel";
 
-export default function SettingsParentComp({ setEditorSettings }) {
+export default function SettingsParentComp({
+  setEditorSettings,
+  editorSettings,
+}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -12,6 +16,7 @@ export default function SettingsParentComp({ setEditorSettings }) {
         <SettingsPanel
           setEditorSettings={setEditorSettings}
           setOpen={setOpen}
+          editorSettings={editorSettings}
         />
       )}
     </div>
