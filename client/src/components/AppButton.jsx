@@ -5,6 +5,7 @@ export default function AppButton({
   backgroundColor,
   children,
   disabled = false,
+  id = "none",
 }) {
   return (
     <button
@@ -21,6 +22,8 @@ export default function AppButton({
         cursor: disabled ? "not-allowed" : "pointer",
       }}
       disabled={disabled}
+      id={id}
+      data-testid={id}
     >
       {disabled ? "Loading..." : children}
     </button>

@@ -14,13 +14,6 @@ const {
   getCodeStandardsForUser,
 } = require("./controllers/codeStandardsController");
 
-mongoose
-  .connect(
-    "mongodb+srv://tarunv1911:ea0cj8dzRV2NhFmT@cluster0.70deyvr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-  )
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log(err));
-
 const app = express();
 app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
@@ -70,6 +63,10 @@ app.post("/api/v1/llm/completion", async (req, res) => {
   res.json(report);
 });
 
+app.get("/hello", (req, res) => {
+  res.status(200).json({ message: "Hello World" });
+});
+
 app.post("/api/v1/users/register", register);
 app.post("/api/v1/users/login", login);
 app.post("/api/v1/users/me", me);
@@ -82,6 +79,4 @@ app.get("/api/v1/reviews/:reportId", getReportById);
 app.post("/api/v1/codeStandards", uploadCodeStandards);
 app.get("/api/v1/codeStandards", getCodeStandardsForUser);
 
-app.listen(3000, () => {
-  console.log("Server is running on http://localhost:3000");
-});
+module.exports = app;

@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import AppButton from "./AppButton";
 import Navbar from "./Navbar";
@@ -142,7 +143,11 @@ export default function Signin() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <AppButton disabled={loading} backgroundColor="#007bff">
+          <AppButton
+            disabled={loading}
+            backgroundColor="#007bff"
+            id="form-signin-button"
+          >
             Sign In
           </AppButton>
           <AppLink path="/login" backgroundColor="#888">
