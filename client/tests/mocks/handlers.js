@@ -7,4 +7,11 @@ export const handlers = [
       user: { name: "John Doe", email: "john@gmail.com" },
     });
   }),
+
+  http.post("http://localhost:3000/api/v1/users/login", () => {
+    return HttpResponse.json({
+      message: "User registered successfully",
+      user: { name: "John Doe", email: "john@gmail.com" },
+    });
+  }),
 ];

@@ -46,11 +46,25 @@ exports.login = async (req, res) => {
 };
 
 exports.me = async (req, res) => {
-  const { token } = req.body;
+  let token;
 
-  const decoded = await promisify(jwt.verify)(token, "SECRET");
+  try {
+    token = req.body?.token;
 
-  const user = await User.findById(decoded.id);
+    if (!token) {
+      return res.status(401).json({ error: "User is not authorized" });
+    }
 
-  res.json(user);
+    const decoded = await promisify(jwt.verify)(token, "SECRET");
+    const user = await User.findById(decoded.id);
+
+    if (!user) {
+      return res.status(400).json({ error: "User not found!" });
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.error("JWT decode or DB error:", err.message); // helpful for debugging
+    res.status(401).json({ error: "Invalid token" });
+  }
 };

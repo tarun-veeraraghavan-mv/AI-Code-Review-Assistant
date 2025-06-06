@@ -4,7 +4,6 @@ import ScoreCard from "./ScoreCard";
 export default function CodeReport({ review }) {
   return (
     <div>
-      <div></div>
       <div
         id="code-review-report"
         style={{

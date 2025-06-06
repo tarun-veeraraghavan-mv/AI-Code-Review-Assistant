@@ -21,6 +21,8 @@ export default function Login() {
     setEmail("");
     setPassword("");
 
+    alert("User logged in successfully");
+
     navigate("/");
   }
 

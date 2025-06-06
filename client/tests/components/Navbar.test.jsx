@@ -1,20 +1,24 @@
 import React from "react";
-import { describe, expect, it } from "vitest";
-import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { describe, expect, it, vi } from "vitest";
 import Navbar from "../../src/components/Navbar";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { AuthProvider } from "../../src/contexts/AuthContext";
 
 describe("Navbar", () => {
+  const MockReportPage = () => <div>Report Page</div>;
+
   const renderComponent = () => {
     render(
       <AuthProvider>
-        <BrowserRouter>
+        <MemoryRouter initialEntries={["/"]}>
           <Routes>
             <Route path="/" element={<Navbar />} />
+            <Route path="/report" element={<MockReportPage />} />
           </Routes>
-        </BrowserRouter>
+        </MemoryRouter>
       </AuthProvider>
     );
   };
@@ -39,5 +43,20 @@ describe("Navbar", () => {
     expect(docsButton).toBeDefined();
     expect(reportsButton).toBeDefined();
     expect(signinButton).toBeDefined();
+  });
+  it("should not let user into register page if not signed in", async () => {
+    const alertMock = vi.spyOn(window, "alert").mockImplementation(() => {});
+
+    renderComponent();
+
+    const reportButton = screen.getByRole("button", {
+      name: /reports/i,
+    });
+
+    const user = userEvent.setup();
+    await user.click(reportButton);
+
+    expect(alertMock).toHaveBeenCalledWith("Signin to access this feature");
+    alertMock.mockRestore();
   });
 });
