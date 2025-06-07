@@ -83,6 +83,8 @@ export default function TestComp() {
         setEditorSettings={setEditorSettings}
         editorSettings={editorSettings}
       />
+
+      <p>HELLO!</p>
     </div>
   );
 }
