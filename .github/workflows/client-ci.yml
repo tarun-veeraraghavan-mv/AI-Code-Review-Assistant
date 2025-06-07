@@ -97,10 +97,9 @@ jobs:
           netlify deploy --dir=dist --json > deploy-output.json
           node-jq -r '.deploy_url' deploy-output.json
 
-
-            - name: Export Staging URL
-              id: deploy
-              run: echo "STAGING_URL=$(./node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json)" >> $GITHUB_OUTPUT
+      - name: Export Staging URL
+        id: deploy
+        run: echo "STAGING_URL=$(./node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json)" >> $GITHUB_OUTPUT
 
   staging-e2e-testing:
     runs-on: ubuntu-latest
