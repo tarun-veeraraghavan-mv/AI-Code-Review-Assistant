@@ -85,11 +85,20 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
-      - name: Run App
-        run: npm run dev
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: client-build
+          path: client/dist
 
-      - name: Run E2E Tests
-        run: npx playwright test
+      - name: Install serve
+        run: npm install serve
+
+      - name: Serve app and run Playwright tests
+        run: |
+          npx serve -s dist -l 5173 &
+          npx wait-on http://localhost:5173
+          npx playwright test
 
   client-deploy-staging:
     runs-on: ubuntu-latest
