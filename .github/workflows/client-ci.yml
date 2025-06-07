@@ -87,21 +87,21 @@ jobs:
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Install Netlify CLI and node-jq globally
+      - name: Install Netlify CLI and node-jq (locally, not globally)
         run: |
-          npm install -g netlify-cli node-jq
-          netlify --version
+          npm install netlify-cli node-jq
+          ./node_modules/.bin/netlify --version
 
       - name: Deploy to Netlify (Staging)
         run: |
           echo "Deploying to Netlify Staging. Site ID: $NETLIFY_SITE_ID"
-          netlify status
-          netlify deploy --dir=dist --json > deploy-output.json
-          node-jq -r '.deploy_url' deploy-output.json
+          ./node_modules/.bin/netlify status
+          ./node_modules/.bin/netlify deploy --dir=dist --json > deploy-output.json
+          ./node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json
 
       - name: Export Staging URL
         id: deploy
-        run: echo "STAGING_URL=$(node-jq -r '.deploy_url' deploy-output.json)" >> $GITHUB_OUTPUT
+        run: echo "STAGING_URL=$(./node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json)" >> $GITHUB_OUTPUT
 
   staging-e2e-testing:
     runs-on: ubuntu-latest
