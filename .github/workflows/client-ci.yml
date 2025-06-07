@@ -89,6 +89,9 @@ jobs:
       - name: Install Netlify CLI and node-jq globally
         run: npm install -g netlify-cli node-jq
 
+      - name: Check build output
+        run: ls -la dist
+
       - name: Deploy to Netlify (Staging)
         id: deploy
         env:
@@ -97,7 +100,7 @@ jobs:
         run: |
           echo "Deploying to Netlify Staging. Site ID: $NETLIFY_SITE_ID"
           netlify status
-          netlify deploy --dir=dist --json > deploy-output.json
+          run: netlify deploy --dir=./dist --json > deploy-output.json
 
       - name: Export Staging URL
         run: |
