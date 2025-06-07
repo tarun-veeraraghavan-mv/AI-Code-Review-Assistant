@@ -129,7 +129,7 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Install Netlify CLI and node-jq locally
-        run: npm install netlify-cli node-jq
+        run: npm install netlify-cli node-jq --legacy-peer-deps
 
       - name: Check build output
         run: ls -la dist
