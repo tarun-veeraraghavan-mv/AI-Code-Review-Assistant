@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 test("Navbar should be rendered properly", async ({ page }) => {
-  await page.goto("http://localhost:5173/");
+  await page.goto("/");
 
   // Store elements in variables
   const heading = page.getByRole("heading", { name: /ai code review/i });
@@ -21,7 +21,7 @@ test("Navbar should be rendered properly", async ({ page }) => {
 });
 
 test("Settings panel should work as expected", async ({ page }) => {
-  await page.goto("http://localhost:5173/");
+  await page.goto("/");
 
   const settingsButton = page.getByRole("button", {
     name: /settings/i,
