@@ -1,3 +1,4 @@
+import React from "react";
 import RenderList from "../utils/renderList";
 import ScoreCard from "./ScoreCard";
 

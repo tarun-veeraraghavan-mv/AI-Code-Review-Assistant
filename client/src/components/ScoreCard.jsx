@@ -1,3 +1,4 @@
+import React from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
@@ -17,7 +18,7 @@ const ScoreCard = ({ score }) => {
       <div className="scorecard-content">
         <div className="scorecard-stats">
           <p>
-            <span>🔥 Critical Issues:</span> {criticalIssues}
+            <span>🔥 Critical Issues:</span> <span>{criticalIssues}</span>
           </p>
           <p>
             <span>⚠️ Warnings:</span> {warnings}
