@@ -92,7 +92,7 @@ jobs:
           path: client/dist
 
       - name: Install serve
-        run: npm install serve
+        run: npm install serve --legacy-peer-deps
 
       - name: Serve app and run Playwright tests
         run: |
@@ -129,7 +129,7 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Install Netlify CLI and node-jq locally
-        run: npm install netlify-cli node-jq --legacy-peer-deps
+        run: npm install netlify-cli node-jq
 
       - name: Check build output
         run: ls -la dist
