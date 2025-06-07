@@ -208,10 +208,12 @@ jobs:
         run: npm install netlify-cli --legacy-peer-deps
 
       - name: Deploy to Netlify (Production)
+        id: deploy
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_PROD }} # separate from staging
+          NETLIFY_SITE_ID: ${{ env.NETLIFY_SITE_ID }}
         run: |
-          echo "🚀 Deploying to Netlify Production. Site ID: $NETLIFY_SITE_ID"
+          echo "Deploying to Netlify Production. Site ID: $NETLIFY_SITE_ID"
           ./node_modules/.bin/netlify status
-          ./node_modules/.bin/netlify deploy --dir=dist --prod
+          ./node_modules/.bin/netlify deploy --dir=dist --prod --json > deploy-output.json
+          echo "PROD_URL=$(./node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json)" >>  $GITHUB_OUTPUT

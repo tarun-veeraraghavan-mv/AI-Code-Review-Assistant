@@ -10,7 +10,7 @@ export default function Docs() {
 
       <p>These are steps to get you started</p>
 
-      <h3>Step 1: Basics of my UI!!</h3>
+      <h3>Step 1: Basics of my UI</h3>
     </div>
   );
 }
