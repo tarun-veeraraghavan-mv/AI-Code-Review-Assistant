@@ -1,5 +1,5 @@
 import React from "react";
-import RenderList from "../utils/renderList";
+import RenderList from "../utils/RenderList";
 import ScoreCard from "./ScoreCard";
 
 export default function CodeReport({ review }) {
