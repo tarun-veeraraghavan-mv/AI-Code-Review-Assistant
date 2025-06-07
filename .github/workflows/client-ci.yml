@@ -107,9 +107,6 @@ jobs:
           echo "Deploying to Netlify Staging. Site ID: $NETLIFY_SITE_ID"
           ./node_modules/.bin/netlify status
           ./node_modules/.bin/netlify deploy --dir=dist --json > deploy-output.json
-
-      - name: Export Staging URL
-        run: |
           echo "STAGING_URL=$(./node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json)" >> $GITHUB_OUTPUT
 
   staging-e2e-testing:
