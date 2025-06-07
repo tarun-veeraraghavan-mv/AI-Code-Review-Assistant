@@ -40,7 +40,7 @@ export default function CodeReport({ review }) {
         </div>
 
         <div style={{ marginBottom: "30px" }}>
-          <h2 style={{ marginBottom: "20px" }}>Code Analysis!!!</h2>
+          <h2 style={{ marginBottom: "20px" }}>Code Analysis</h2>
 
           <div style={{ marginBottom: "15px" }}>
             <h3 style={{ marginBottom: "10px" }}>Critical Issues</h3>

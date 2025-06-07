@@ -106,7 +106,7 @@ jobs:
         run: |
           echo "Deploying to Netlify Staging. Site ID: $NETLIFY_SITE_ID"
           netlify status
-          run: netlify deploy --dir=./dist --json > deploy-output.json
+          netlify deploy --dir=dist --json > deploy-output.json
 
       - name: Export Staging URL
         run: |
