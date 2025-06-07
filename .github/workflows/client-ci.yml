@@ -10,7 +10,6 @@ on:
 
 env:
   NETLIFY_SITE_ID: c1e48986-8667-47c1-8d57-f3116cd37027
-  NETLIFY_AUTH_TOKEN: nfp_FqSavsmDuF7XQtQAFCtRpCdTmKSJXDYK927e
 
 jobs:
   client-build:
@@ -91,15 +90,18 @@ jobs:
         run: npm install -g netlify-cli node-jq
 
       - name: Deploy to Netlify (Staging)
+        id: deploy
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ env.NETLIFY_SITE_ID }}
         run: |
           echo "Deploying to Netlify Staging. Site ID: $NETLIFY_SITE_ID"
           netlify status
           netlify deploy --dir=dist --json > deploy-output.json
-          node-jq -r '.deploy_url' deploy-output.json
 
       - name: Export Staging URL
-        id: deploy
-        run: echo "STAGING_URL=$(./node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json)" >> $GITHUB_OUTPUT
+        run: |
+          echo "STAGING_URL=$(node-jq -r '.deploy_url' deploy-output.json)" >> $GITHUB_OUTPUT
 
   staging-e2e-testing:
     runs-on: ubuntu-latest
