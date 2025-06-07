@@ -174,7 +174,7 @@ jobs:
       - name: Run Staging E2E Tests
         run: |
           echo "Running E2E tests against: $DEPLOY_URL"
-          npx playwright test
+          DEPLOY_URL=$DEPLOY_URL npx playwright test
 
   client-deploy-production:
     runs-on: ubuntu-latest
