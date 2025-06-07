@@ -94,4 +94,8 @@ describe("User Auth Flow", () => {
 
     expect(res.statusCode).toBe(401); // jwt.verify throws
   });
+
+  it("should always be true", () => {
+    expect(1).toBeTruthy();
+  });
 });
