@@ -87,17 +87,17 @@ jobs:
       - name: Build project (if not using artifact)
         run: npm run build
 
-      - name: Install Netlify CLI and node-jq
+      - name: Install Netlify CLI and node-jq globally
         run: |
-          npm install netlify-cli node-jq
-          ./node_modules/.bin/netlify --version
+          npm install -g netlify-cli node-jq
+          netlify --version
 
       - name: Deploy to Netlify (Staging)
         run: |
           echo "Deploying to Netlify Staging. Site ID: $NETLIFY_SITE_ID"
-          ./node_modules/.bin/netlify status
-          ./node_modules/.bin/netlify deploy --dir=dist --json > deploy-output.json
-          ./node_modules/.bin/node-jq -r '.deploy_url' deploy-output.json
+          netlify status
+          netlify deploy --dir=dist --json > deploy-output.json
+          node-jq -r '.deploy_url' deploy-output.json
 
       - name: Export Staging URL
         id: deploy
