@@ -21,6 +21,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+
       - name: Install deps
         run: npm ci --legacy-peer-deps
 
@@ -44,6 +50,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
@@ -60,6 +72,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
@@ -82,6 +100,12 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
 
       - name: Download build artifact
         uses: actions/download-artifact@v4
@@ -123,6 +147,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+
       - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
@@ -133,3 +163,43 @@ jobs:
         run: |
           echo "Running E2E tests against: $DEPLOY_URL"
           npx playwright test
+
+  client-deploy-production:
+    runs-on: ubuntu-latest
+    needs: staging-e2e-testing
+    environment:
+      name: production
+    defaults:
+      run:
+        working-directory: client
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: client-build
+          path: client/dist
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Install Netlify CLI locally
+        run: npm install netlify-cli --legacy-peer-deps
+
+      - name: Deploy to Netlify (Production)
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_PROD }} # separate from staging
+        run: |
+          echo "🚀 Deploying to Netlify Production. Site ID: $NETLIFY_SITE_ID"
+          ./node_modules/.bin/netlify status
+          ./node_modules/.bin/netlify deploy --dir=dist --prod
