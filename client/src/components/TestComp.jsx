@@ -37,6 +37,8 @@ export default function TestComp() {
 
       <CodeStandardsUpload setFileContent={setFileContent} />
 
+      <p>Complete of CI/CD</p>
+
       <div
         style={{
           display: "grid",
