@@ -1,5 +1,32 @@
 import { test, expect } from "@playwright/test";
 
+test("all routes must work as expected", async ({ page }) => {
+  // home page
+  await page.goto("/");
+  await expect(page.getByText(/project files/i)).toBeVisible();
+
+  //docs page
+  await page.goto("/docs");
+  await expect(page.getByText(/Welcome to my/i)).toBeVisible();
+
+  // signin page
+  await page.goto("/signin");
+
+  const signinButton = page
+    .getByRole("button", {
+      name: /sign in/i,
+    })
+    .nth(1);
+  const loginButton = page.getByText(/log in/i);
+
+  await expect(signinButton).toBeVisible();
+  await expect(loginButton).toBeVisible();
+
+  await loginButton.click();
+  await expect(loginButton).toBeVisible();
+  await expect(signinButton).not.toBeVisible();
+});
+
 test("Navbar should be rendered properly", async ({ page }) => {
   await page.goto("/");
 
@@ -28,4 +55,99 @@ test("Settings panel should work as expected", async ({ page }) => {
   });
 
   await expect(settingsButton).toBeVisible();
+
+  await settingsButton.click();
+
+  const settingsHeader = page.getByRole("heading", {
+    name: /settings/i,
+  });
+  const tabSizeLabel = page.getByText(/tab size/i);
+  const themeLabel = page.getByText(/theme/i);
+  const fontSizeLabel = page.getByText(/font size/i);
+
+  const tabSizeSelect = page.getByRole("combobox", {
+    name: /tab size/i,
+  });
+  const themeSelect = page.getByRole("combobox", {
+    name: /theme/i,
+  });
+  const fontSizeInput = page.getByRole("spinbutton", {
+    name: /font size/i,
+  });
+
+  const closeButton = page.getByRole("button", {
+    name: /close/i,
+  });
+
+  await expect(settingsHeader).toBeVisible();
+  await expect(tabSizeLabel).toBeVisible();
+  await expect(themeLabel).toBeVisible();
+  await expect(fontSizeLabel).toBeVisible();
+
+  await expect(tabSizeSelect).toBeVisible();
+  await expect(themeSelect).toBeVisible();
+  await expect(fontSizeInput).toBeVisible();
+
+  await expect(closeButton).toBeVisible();
+
+  await closeButton.click();
+
+  await expect(settingsHeader).not.toBeVisible();
+});
+
+test("the sidebar must work as expected", async ({ page }) => {
+  await page.goto("/");
+
+  const projectFilesHeader = page.getByRole("heading", {
+    name: /project files/i,
+  });
+  await expect(projectFilesHeader).toBeVisible();
+
+  const selectButton = page.getByRole("button", {
+    name: /select/i,
+  });
+  await expect(selectButton).toHaveCount(1);
+
+  const addButton = page.getByTestId("add-button");
+  await addButton.click();
+
+  await expect(selectButton).toHaveCount(2);
+
+  page.on("dialog", async (dialog) => {
+    expect(dialog.message()).toBe(
+      "Are you sure you want to delete this cell? This will remove the cell and all its content."
+    );
+    await dialog.accept(); // Click OK
+    // Use dialog.dismiss() to simulate clicking Cancel
+  });
+
+  const deleteButton = page.getByTestId("delete-button").nth(1);
+  await deleteButton.click();
+
+  await expect(selectButton).toHaveCount(1);
+});
+
+test("the code editor must work as expected", async ({ page }) => {
+  await page.goto("/");
+
+  // code editor functionality
+  const editorContainer = page.getByTestId("code-editor");
+  await expect(editorContainer).toBeVisible();
+
+  await page.waitForSelector(".monaco-editor");
+
+  const editor = page.locator(".monaco-editor");
+  await expect(editor).toBeVisible();
+
+  await editor.click();
+  await page.keyboard.type('console.log("Hello World");');
+
+  await expect(page.getByText('console.log("Hello World");')).toBeVisible();
+
+  // language select functionality
+  const languageSelect = page.getByTestId("language-select");
+  expect(languageSelect).toBeVisible();
+
+  await languageSelect.selectOption("javascript");
+  await expect(languageSelect).toHaveValue("javascript");
 });

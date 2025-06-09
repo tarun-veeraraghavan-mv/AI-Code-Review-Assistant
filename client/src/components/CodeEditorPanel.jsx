@@ -8,7 +8,7 @@ export default function CodeEditorPanel({
   language = "not given by user",
 }) {
   return (
-    <div>
+    <div data-testid="code-editor">
       <Editor
         fontSize={editorSettings.fontSize}
         height="550px"

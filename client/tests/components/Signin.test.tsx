@@ -87,10 +87,8 @@ describe("Signin", () => {
     await user.type(passwordInput, "test123");
     await user.click(submitButton);
 
-    // Assert that the alert was called with the correct message
     expect(alertMock).toHaveBeenCalledWith("User created successfully");
 
-    // Restore the original implementation of alert
     alertMock.mockRestore();
   });
 });

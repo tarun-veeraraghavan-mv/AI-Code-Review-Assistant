@@ -18,7 +18,8 @@ const ScoreCard = ({ score }) => {
       <div className="scorecard-content">
         <div className="scorecard-stats">
           <p>
-            <span>🔥 Critical Issues:</span> <span>{criticalIssues}</span>
+            <span data-testid="critical-issue-header">🔥 Critical Issues:</span>{" "}
+            <span data-testid="critical-issue-score">{criticalIssues}</span>
           </p>
           <p>
             <span>⚠️ Warnings:</span> {warnings}

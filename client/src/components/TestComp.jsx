@@ -48,8 +48,8 @@ export default function TestComp() {
           updateInput={updateInput}
           addInput={addInput}
           handleDeleteCell={handleDeleteCell}
-          setCurrentCellIndex={setCurrentCellIndex}
           currentCellIndex={currentCellIndex}
+          setCurrentCellIndex={setCurrentCellIndex}
         />
 
         <div>
@@ -58,12 +58,11 @@ export default function TestComp() {
               index === currentCellIndex && (
                 <div key={index}>
                   <CodeEditorUtils
-                    clearInput={clearInput}
-                    index={index}
-                    input={input}
-                    updateInput={updateInput}
                     inputs={inputs}
-                    codeStandards={fileContent}
+                    index={index}
+                    codeStandardss={fileContent}
+                    updateInput={updateInput}
+                    clearInput={clearInput}
                   />
 
                   <CodeEditorPanel

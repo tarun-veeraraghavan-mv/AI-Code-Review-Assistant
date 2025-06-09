@@ -1,3 +1,4 @@
+import React from "react";
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { FaRegTrashAlt } from "react-icons/fa";
 import { FaRegEdit } from "react-icons/fa";
@@ -32,6 +33,7 @@ export default function Sidebar({
             size={25}
             style={{ cursor: "pointer" }}
             onClick={addInput}
+            data-testid="add-button"
           />
         </div>
       </div>
@@ -90,6 +92,7 @@ export default function Sidebar({
                     : {}
                 }
                 onClick={() => handleDeleteCell(index)}
+                data-testid="delete-button"
               />
               <button onClick={() => setCurrentCellIndex(index)}>Select</button>
             </div>

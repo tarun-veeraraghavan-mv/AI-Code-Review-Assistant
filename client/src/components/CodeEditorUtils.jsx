@@ -1,3 +1,4 @@
+import React from "react";
 import AppButton from "./AppButton";
 import { useCodeReviewLLM } from "../hooks/useCodeReviewLLM";
 import { useAuth } from "../contexts/AuthContext";
@@ -54,8 +55,10 @@ export default function CodeEditorUtils({
     >
       <div>
         <select
+          data-testid="language-select"
           name="language"
           id="language"
+          value={inputs[index]?.language || "not given"}
           onChange={(e) => updateInput(index, "language", e.target.value)}
           style={{
             padding: "12px",
