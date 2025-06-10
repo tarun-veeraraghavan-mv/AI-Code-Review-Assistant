@@ -106,8 +106,7 @@ on:
 jobs:
   e2e-tests:
     runs-on: ubuntu-latest
-    container:
-      image: node:18
+
     services:
       mongodb:
         image: mongo
@@ -116,27 +115,31 @@ jobs:
         env:
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example
+
     env:
       OPENROUTER_API_KEY: sk-or-...
       OPENROUTER_API_URL: https://openrouter.ai/api/v1/chat/completions
-      MONGO_URI: mongodb://mongodb:27017
+      MONGO_URI: mongodb://localhost:27017
       PORT: 3003
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
       - name: Install backend dependencies
         run: npm ci --legacy-peer-deps
         working-directory: backend
 
-      - name: Install wait-on globally
-        run: npm install -g wait-on
-
-      - name: Start backend
+      - name: Start backend server
         run: |
+          npm install -g wait-on
           npm start &
-          npx wait-on http://localhost:3003
+          wait-on http://localhost:3003
         working-directory: backend
 
       - name: Install frontend dependencies
@@ -149,14 +152,15 @@ jobs:
 
       - name: Serve frontend
         run: |
-          npx serve -s dist -l 5173 &
-          npx wait-on http://localhost:5173
+          npm install -g serve
+          serve -s dist -l 5173 &
+          wait-on http://localhost:5173
         working-directory: client
 
-      - name: Install Playwright browsers
+      - name: Install Playwright Browsers
         run: npx playwright install --with-deps
         working-directory: client
 
-      - name: Run Playwright tests
+      - name: Run Playwright Tests
         run: npx playwright test
         working-directory: client

@@ -20,9 +20,6 @@ exports.getReportById = async (req, res) => {
 exports.createReport = async (req, res) => {
   const { code, codeStandards, userId } = req.body;
 
-  console.log(codeStandards);
-  console.log();
-
   const openrouterApiKey =
     process.env.OPENROUTER_API_KEY ||
     "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";
