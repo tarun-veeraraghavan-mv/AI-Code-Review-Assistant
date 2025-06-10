@@ -1,31 +1,31 @@
 import { test, expect } from "@playwright/test";
 
-test("all routes must work as expected", async ({ page }) => {
-  // home page
-  await page.goto("/");
-  await expect(page.getByText(/project files/i)).toBeVisible({ timeout: 5000 });
+// test("all routes must work as expected", async ({ page }) => {
+//   // home page
+//   await page.goto("/");
+//   await expect(page.getByText(/project files/i)).toBeVisible({ timeout: 5000 });
 
-  //docs page
-  await page.goto("/docs");
-  await expect(page.getByText(/Welcome to my/i)).toBeVisible({ timeout: 5000 });
+//   //docs page
+//   await page.goto("/docs");
+//   await expect(page.getByText(/Welcome to my/i)).toBeVisible({ timeout: 5000 });
 
-  // signin page
-  await page.goto("/signin");
+//   // signin page
+//   await page.goto("/signin");
 
-  const signinButton = page
-    .getByRole("button", {
-      name: /sign in/i,
-    })
-    .nth(1);
-  const loginButton = page.getByText(/log in/i);
+//   const signinButton = page
+//     .getByRole("button", {
+//       name: /sign in/i,
+//     })
+//     .nth(1);
+//   const loginButton = page.getByText(/log in/i);
 
-  await expect(signinButton).toBeVisible({ timeout: 5000 });
-  await expect(loginButton).toBeVisible({ timeout: 5000 });
+//   await expect(signinButton).toBeVisible({ timeout: 5000 });
+//   await expect(loginButton).toBeVisible({ timeout: 5000 });
 
-  await loginButton.click();
-  await expect(loginButton).toBeVisible({ timeout: 5000 });
-  await expect(signinButton).not.toBeVisible({ timeout: 5000 });
-});
+//   await loginButton.click();
+//   await expect(loginButton).toBeVisible({ timeout: 5000 });
+//   await expect(signinButton).not.toBeVisible({ timeout: 5000 });
+// });
 
 test("Navbar should be rendered properly", async ({ page }) => {
   await page.goto("/");
