@@ -139,7 +139,7 @@ jobs:
         run: |
           npm install -g wait-on
           npm start &
-          wait-on http://localhost:3003
+          wait-on http://localhost:3003/health --timeout 30000
         working-directory: backend
 
       - name: Install frontend dependencies

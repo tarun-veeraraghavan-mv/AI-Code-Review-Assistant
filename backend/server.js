@@ -11,6 +11,8 @@ console.log("Hello");
 console.log("KEY", process.env.OPENROUTER_API_KEY);
 
 connectDB(MONGO_URI).then(() => {
+  app.get("/health", (req, res) => res.status(200).send("OK"));
+
   app.listen(PORT, () => {
     console.log(`🚀 Server running at http://localhost:${PORT}`);
   });
