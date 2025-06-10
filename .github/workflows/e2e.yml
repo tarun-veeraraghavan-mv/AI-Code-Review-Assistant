@@ -17,7 +17,10 @@ jobs:
       image: node:18-alpine
     services:
       mongodb:
-        image: env
+        image: mongo
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example
     env:
       OPENROUTER_API_KEY: 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
       OPENROUTER_API_URL: https://openrouter.ai/api/v1/chat/completions
