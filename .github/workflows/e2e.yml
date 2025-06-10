@@ -1,4 +1,97 @@
-name: E2E Cycle
+# name: E2E Cycle
+
+# on:
+#   push:
+#     paths:
+#       - "client/**"
+#       - "backend/**"
+#   pull_request:
+#     paths:
+#       - "client/**"
+#       - "backend/**"
+
+# jobs:
+#   backend-setup:
+#     runs-on: ubuntu-latest
+#     container:
+#       image: node:18
+#     services:
+#       mongodb:
+#         image: mongo
+#         env:
+#           MONGO_INITDB_ROOT_USERNAME: root
+#           MONGO_INITDB_ROOT_PASSWORD: example
+#     env:
+#       OPENROUTER_API_KEY: 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
+#       OPENROUTER_API_URL: https://openrouter.ai/api/v1/chat/completions
+#       MONGO_URI: mongodb://mongodb:27017
+#       PORT: 3003
+#     defaults:
+#       run:
+#         working-directory: backend
+
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+
+#       - name: Install dependencies
+#         run: npm ci --legacy-peer-deps
+
+#       - name: Start backend in the background
+#         run: |
+#           npm start &
+#           npx wait-on http://localhost:3003
+
+#   run-client:
+#     needs: backend-setup
+#     runs-on: ubuntu-latest
+#     defaults:
+#       run:
+#         working-directory: client
+
+#     steps:
+#       - uses: actions/checkout@v4
+
+#       - name: Cache dependencies
+#         uses: actions/cache@v3
+#         with:
+#           path: ~/.npm
+#           key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+
+#       - name: Install deps
+#         run: npm ci --legacy-peer-deps
+
+#       - name: Build
+#         run: npm run build
+
+#       - name: Upload build artifact
+#         uses: actions/upload-artifact@v4
+#         with:
+#           name: client-build
+#           path: client/dist
+
+#       - name: Install Playwright Browsers
+#         run: npx playwright install --with-deps
+
+#       - name: Download build artifact
+#         uses: actions/download-artifact@v4
+#         with:
+#           name: client-build
+#           path: client/dist
+
+#       - name: Install serve
+#         run: npm install serve --legacy-peer-deps
+
+#       - name: Serve app and run Playwright tests
+#         run: |
+#           npx serve -s dist -l 5173 &
+#           npx wait-on http://localhost:5173
+#           npx playwright test
+
+#       - name: Running app
+#         run: echo "App is running"
+
+name: Fullstack E2E Workflow
 
 on:
   push:
@@ -11,82 +104,56 @@ on:
       - "backend/**"
 
 jobs:
-  backend-setup:
+  e2e-tests:
     runs-on: ubuntu-latest
     container:
       image: node:18
     services:
       mongodb:
         image: mongo
+        ports:
+          - 27017:27017
         env:
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example
     env:
-      OPENROUTER_API_KEY: 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
+      OPENROUTER_API_KEY: sk-or-...
       OPENROUTER_API_URL: https://openrouter.ai/api/v1/chat/completions
       MONGO_URI: mongodb://mongodb:27017
       PORT: 3003
-    defaults:
-      run:
-        working-directory: backend
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install dependencies
+      - name: Install backend dependencies
         run: npm ci --legacy-peer-deps
+        working-directory: backend
 
-      - name: Start backend in the background
+      - name: Start backend
         run: |
           npm start &
           npx wait-on http://localhost:3003
+        working-directory: backend
 
-  run-client:
-    needs: backend-setup
-    runs-on: ubuntu-latest
-    defaults:
-      run:
+      - name: Install frontend dependencies
+        run: npm ci --legacy-peer-deps
         working-directory: client
 
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Install deps
-        run: npm ci --legacy-peer-deps
-
-      - name: Build
+      - name: Build frontend
         run: npm run build
+        working-directory: client
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: client-build
-          path: client/dist
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: client-build
-          path: client/dist
-
-      - name: Install serve
-        run: npm install serve --legacy-peer-deps
-
-      - name: Serve app and run Playwright tests
+      - name: Serve frontend
         run: |
           npx serve -s dist -l 5173 &
           npx wait-on http://localhost:5173
-          npx playwright test
+        working-directory: client
 
-      - name: Running app
-        run: echo "App is running"
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+        working-directory: client
+
+      - name: Run Playwright tests
+        run: npx playwright test
+        working-directory: client
