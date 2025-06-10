@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "test:unit": "vitest",
     "test:ui": "vitest --ui  --coverage",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "postinstall": "npx playwright install chromium --with-deps"
   },
   "dependencies": {
     "@babel/standalone": "^7.27.4",

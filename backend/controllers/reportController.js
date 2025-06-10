@@ -1,4 +1,5 @@
 const CodeReview = require("../models/CodeReview");
+const reviewBotPrompt = require("../prompts/reviewBotPrompt");
 
 exports.getAllReportsForUser = async (req, res) => {
   const { userId } = req.query;
@@ -20,12 +21,20 @@ exports.createReport = async (req, res) => {
   const { code, codeStandards, userId } = req.body;
 
   console.log(codeStandards);
+  console.log();
 
-  const result = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+  const openrouterApiKey =
+    process.env.OPENROUTER_API_KEY ||
+    "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";
+
+  const openrouterApiUrl =
+    process.env.OPENROUTER_API_URL ||
+    "https://openrouter.ai/api/v1/chat/completions";
+
+  const result = await fetch(openrouterApiUrl, {
     method: "POST",
     headers: {
-      Authorization:
-        "Bearer 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",
+      Authorization: `Bearer ${openrouterApiKey}`,
       "HTTP-Referer": "<YOUR_SITE_URL>", // Optional. Site URL for rankings on openrouter.ai.
       "X-Title": "<YOUR_SITE_NAME>", // Optional. Site title for rankings on openrouter.ai.
       "Content-Type": "application/json",

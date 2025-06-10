@@ -15,8 +15,10 @@ const {
   getCodeStandardsForUser,
 } = require("./controllers/codeStandardsController");
 
+const clientUrl = process.env.CLIENT_API_URL || "http://localhost:5173";
+
 const app = express();
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors({ origin: clientUrl }));
 app.use(express.json());
 
 app.post("/api/v1/llm/completion", createReport);

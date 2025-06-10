@@ -1,4 +1,4 @@
-export const reviewBotPrompt = (standards) => `
+const reviewBotPrompt = (standards) => `
 You are an expert code reviewer and senior software engineer. Your job is to analyze a piece of code and give a code review. These are the steps you will take: 
 
 1. Finding the code language
@@ -39,3 +39,5 @@ After producing the output in the format given, you will strictly check if there
 
 The code to review is below:
 `;
+
+module.exports = reviewBotPrompt;
