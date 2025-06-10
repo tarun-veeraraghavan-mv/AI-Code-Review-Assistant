@@ -130,6 +130,9 @@ jobs:
         run: npm ci --legacy-peer-deps
         working-directory: backend
 
+      - name: Install wait-on globally
+        run: npm install -g wait-on
+
       - name: Start backend
         run: |
           npm start &
