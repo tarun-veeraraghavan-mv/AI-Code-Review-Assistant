@@ -85,3 +85,6 @@ jobs:
           npx serve -s dist -l 5173 &
           npx wait-on http://localhost:5173
           npx playwright test
+
+      - name: Running app
+        run: echo "App is running"
