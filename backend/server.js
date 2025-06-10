@@ -6,7 +6,8 @@ const MONGO_URI =
   process.env.MONGO_URI ||
   "mongodb+srv://tarunv1911:ea0cj8dzRV2NhFmT@cluster0.70deyvr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
-console.log("Hello");
+console.log("Hello222");
+console.log("Takila");
 
 console.log("KEY", process.env.OPENROUTER_API_KEY);
 
