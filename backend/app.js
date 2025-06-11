@@ -21,13 +21,12 @@ const app = express();
 app.use(cors({ origin: clientUrl }));
 app.use(express.json());
 
-app.post("/api/v1/llm/completion", createReport);
-
 app.post("/api/v1/users/register", register);
 app.post("/api/v1/users/login", login);
 app.post("/api/v1/users/me", me);
 
 // reports
+app.post("/api/v1/llm/completion", createReport);
 app.get("/api/v1/reviews", getAllReportsForUser);
 app.get("/api/v1/reviews/:reportId", getReportById);
 

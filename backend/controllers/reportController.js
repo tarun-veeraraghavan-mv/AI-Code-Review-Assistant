@@ -1,5 +1,6 @@
 const CodeReview = require("../models/CodeReview");
 const reviewBotPrompt = require("../prompts/reviewBotPrompt");
+const JSON5 = require("json5");
 
 exports.getAllReportsForUser = async (req, res) => {
   const { userId } = req.query;
@@ -21,12 +22,9 @@ exports.createReport = async (req, res) => {
   const { code, codeStandards, userId } = req.body;
 
   const openrouterApiKey =
-    process.env.OPENROUTER_API_KEY ||
-    "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";
+    "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";
 
-  const openrouterApiUrl =
-    process.env.OPENROUTER_API_URL ||
-    "https://openrouter.ai/api/v1/chat/completions";
+  const openrouterApiUrl = "https://openrouter.ai/api/v1/chat/completions";
 
   const result = await fetch(openrouterApiUrl, {
     method: "POST",
@@ -64,5 +62,5 @@ exports.createReport = async (req, res) => {
 
   const report = await CodeReview.create(finalCode);
 
-  res.json(report);
+  res.status(201).json(report);
 };

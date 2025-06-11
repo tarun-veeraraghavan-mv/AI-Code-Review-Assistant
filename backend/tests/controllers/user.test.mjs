@@ -1,8 +1,8 @@
 import request from "supertest";
-import app from "../app.js";
+import app from "../../app.js";
 import { describe, it, expect, beforeAll, afterEach, afterAll } from "vitest";
-import { setupDB, teardownDB } from "./setup.js";
-import User from "../models/User.js"; // make sure this is correct path
+import { setupDB, teardownDB } from "../setup.js";
+import User from "../../models/User.js"; // make sure this is correct path
 
 beforeAll(async () => {
   await setupDB();

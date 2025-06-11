@@ -16,4 +16,5 @@ const CodeReviewSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("CodeReview", CodeReviewSchema);
+module.exports =
+  mongoose.models.CodeReview || mongoose.model("CodeReview", CodeReviewSchema);
