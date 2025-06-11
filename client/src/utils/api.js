@@ -1,7 +1,8 @@
 import axios from "axios";
 import { formatCode } from "./formatCode";
 
-const BACKEND_URL = process.env.VITE_BACKEND_API_URL || "http://localhost:3000";
+const BACKEND_URL =
+  import.meta.env.VITE_BACKEND_API_URL || "http://localhost:3000";
 
 export async function getAi(inputs, codeStandards, userId) {
   try {

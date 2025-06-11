@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function AppButton({
   onClick,
@@ -7,6 +7,10 @@ export default function AppButton({
   disabled = false,
   id = "none",
 }) {
+  useEffect(() => {
+    console.log(import.meta.env);
+  });
+
   return (
     <button
       onClick={onClick}
