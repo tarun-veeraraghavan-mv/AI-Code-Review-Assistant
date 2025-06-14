@@ -104,7 +104,9 @@ export async function getUserByEmail(email) {
 }
 
 export async function getUserbyId(id) {
-  const res = await axios.get(`${BACKEND_URL}/api/v1/users/${id}`);
+  const res = await axios.get(`${BACKEND_URL}/api/v1/users/byId/${id}`);
+
+  console.log(res);
 
   return res.data;
 }

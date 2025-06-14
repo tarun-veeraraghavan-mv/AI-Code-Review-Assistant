@@ -122,3 +122,7 @@ function generateRoomId(id1, id2) {
 server.listen(3001, () => {
   console.log("Server running on port 3001");
 });
+
+app.listen(3002, () => {
+  console.log("App running on port 3002");
+});

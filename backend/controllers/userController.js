@@ -106,6 +106,7 @@ exports.me = async (req, res) => {
 
 exports.findUserById = async (req, res) => {
   const { id } = req.params;
+  console.log(id);
 
   const user = await User.findById(id);
 

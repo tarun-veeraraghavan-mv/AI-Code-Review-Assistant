@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { io } from "socket.io-client";
 import { useAuth } from "../../contexts/AuthContext";
 import Navbar from "../../ui/Navbar";
+import { getUserbyId } from "../../utils/api";
 
 const socket = io("http://localhost:3001");
 
@@ -36,10 +37,26 @@ export default function Chat() {
         const received = await receivedRes.json();
 
         // Merge + deduplicate
-        const all = Array.from(new Set([...sent, ...received])).filter(
+        const allIds = Array.from(new Set([...sent, ...received])).filter(
           (id) => id !== myId
         );
-        setConversationUsers(all);
+
+        console.log(allIds);
+
+        const usersWithNames = await Promise.all(
+          allIds.map(async (id) => {
+            try {
+              const user = await getUserbyId(id);
+              return { id, name: user.name || id }; // fallback to ID
+            } catch (e) {
+              console.error("Error fetching user name:", e);
+              return { id, name: id }; // fallback
+            }
+          })
+        );
+
+        console.log(usersWithNames);
+        setConversationUsers(usersWithNames);
       } catch (err) {
         console.error("Error fetching conversation users:", err);
       }
@@ -129,24 +146,26 @@ export default function Chat() {
           {conversationUsers.length === 0 ? (
             <p>No messages yet.</p>
           ) : (
-            conversationUsers.map((uid) => (
-              <div
-                key={uid}
-                onClick={() => {
-                  setRecipientId(uid);
-                  setIsChatStarted(true);
-                }}
-                style={{
-                  padding: "10px",
-                  marginBottom: "5px",
-                  cursor: "pointer",
-                  backgroundColor:
-                    recipientId === uid ? "#f0f0f0" : "transparent",
-                }}
-              >
-                {uid}
-              </div>
-            ))
+            conversationUsers.map((user) => {
+              return (
+                <div
+                  key={user.id}
+                  onClick={() => {
+                    setRecipientId(user.id);
+                    setIsChatStarted(true);
+                  }}
+                  style={{
+                    padding: "10px",
+                    marginBottom: "5px",
+                    cursor: "pointer",
+                    backgroundColor:
+                      recipientId === user.id ? "#f0f0f0" : "transparent",
+                  }}
+                >
+                  {user.name}
+                </div>
+              );
+            })
           )}
         </div>
 
@@ -174,7 +193,7 @@ export default function Chat() {
             </div>
           ) : (
             <>
-              <h3>Chat with: {recipientId}</h3>
+              {/* <h3>Chat with: {recipientId}</h3> */}
               <div
                 style={{
                   border: "1px solid #ccc",
@@ -182,11 +201,35 @@ export default function Chat() {
                   height: "60vh",
                   overflowY: "scroll",
                   marginBottom: "10px",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "10px",
                 }}
               >
-                {(chats[roomId] || []).map((msg, i) => (
-                  <p key={i}>{msg}</p>
-                ))}
+                {(chats[roomId] || []).map((msg, i) => {
+                  const isMe = msg.startsWith("Me:");
+
+                  const displayMsg = isMe
+                    ? msg.replace("Me: ", "")
+                    : msg.replace(/.*?: /, "");
+
+                  return (
+                    <div
+                      key={i}
+                      style={{
+                        alignSelf: isMe ? "flex-end" : "flex-start",
+                        backgroundColor: isMe ? "#007bff" : "#f44336", // blue for me, red for others
+                        color: "#fff",
+                        padding: "10px 15px",
+                        borderRadius: "20px",
+                        maxWidth: "60%",
+                        wordBreak: "break-word",
+                      }}
+                    >
+                      {displayMsg}
+                    </div>
+                  );
+                })}
               </div>
 
               <div>
