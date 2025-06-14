@@ -1,13 +1,12 @@
 import { useState } from "react";
 import { useInputs } from "../hooks/useInputs";
-import CodeEditorPanel from "./CodeEditorPanel";
+import CodeEditorPanel from "./code-editor/CodeEditorPanel";
 import CodeStandardsUpload from "./CodeStandardsUpload";
 
-import CodeEditorUtils from "./CodeEditorUtils";
-import CodeReport from "./CodeReport";
-import Navbar from "./Navbar";
-import SettingsParentComp from "./SettingsParentComp";
-import Sidebar from "./Sidebar";
+import Navbar from "../ui/Navbar";
+import CodeEditorUtils from "./code-editor/CodeEditorUtils";
+import Sidebar from "./code-editor/Sidebar";
+import SettingsParentComp from "./settings/SettingsParentComp";
 
 export default function TestComp() {
   const { inputs, setInputs, addInput, deleteInput, updateInput, clearInput } =
@@ -82,8 +81,6 @@ export default function TestComp() {
         setEditorSettings={setEditorSettings}
         editorSettings={editorSettings}
       />
-
-      <p>HELLO!</p>
     </div>
   );
 }

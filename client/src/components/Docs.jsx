@@ -1,4 +1,4 @@
-import Navbar from "./Navbar";
+import Navbar from "../ui/Navbar";
 
 export default function Docs() {
   return (

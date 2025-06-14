@@ -72,7 +72,7 @@ describe("Code Review Flow", () => {
       overallScore: expect.any(Number),
       criticalIssues: expect.any(Number),
       warnings: expect.any(Number),
-      suggestions: expect.any(Number),
+      suggestions: exp.any(Numbeectr),
     });
     expect(res.body.userId).toBe(userId);
   });

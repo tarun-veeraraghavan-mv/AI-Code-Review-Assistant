@@ -3,7 +3,13 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const JSON5 = require("json5");
 const { reviewBotPrompt } = require("./prompts/reviewBotPrompt");
-const { register, me, login } = require("./controllers/userController");
+const {
+  register,
+  me,
+  login,
+  findUserByEmail,
+  findUserById,
+} = require("./controllers/userController");
 const CodeReview = require("./models/CodeReview");
 const {
   getAllReportsForUser,
@@ -24,6 +30,8 @@ app.use(express.json());
 app.post("/api/v1/users/register", register);
 app.post("/api/v1/users/login", login);
 app.post("/api/v1/users/me", me);
+app.get("/api/v1/users/:email", findUserByEmail);
+app.get("/api/v1/users/:id", findUserById);
 
 // reports
 app.post("/api/v1/llm/completion", createReport);

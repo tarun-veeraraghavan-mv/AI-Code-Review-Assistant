@@ -23,6 +23,7 @@ export async function getAi(inputs, codeStandards, userId) {
 
 export async function register(name, email, password) {
   try {
+    console.log(name, email, password);
     const res = await axios.post(`${BACKEND_URL}/api/v1/users/register`, {
       name,
       email,
@@ -31,7 +32,10 @@ export async function register(name, email, password) {
 
     return res.data;
   } catch (err) {
-    console.log(err);
+    const errorMessage =
+      err?.response?.data?.error || "Something went wrong. Try again.";
+
+    return { error: errorMessage };
   }
 }
 
@@ -44,7 +48,10 @@ export async function login(email, password) {
 
     return res.data;
   } catch (err) {
-    console.log(err);
+    const errorMessage =
+      err?.response?.data?.error || "Something went wrong. Try again.";
+
+    return { error: errorMessage };
   }
 }
 
@@ -86,6 +93,18 @@ export async function getCodeStandardsForUser(userId) {
 
 export async function getReportById(reportId) {
   const res = await axios.get(`${BACKEND_URL}/api/v1/reviews/${reportId}`);
+
+  return res.data;
+}
+
+export async function getUserByEmail(email) {
+  const res = await axios.get(`${BACKEND_URL}/api/v1/users/${email}`);
+
+  return res.data;
+}
+
+export async function getUserbyId(id) {
+  const res = await axios.get(`${BACKEND_URL}/api/v1/users/${id}`);
 
   return res.data;
 }
