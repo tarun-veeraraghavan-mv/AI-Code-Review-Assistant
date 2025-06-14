@@ -3,6 +3,8 @@ import { io } from "socket.io-client";
 import { useAuth } from "../../contexts/AuthContext";
 import Navbar from "../../ui/Navbar";
 import { getUserbyId } from "../../utils/api";
+import UserListSidebar from "./UserListSidebar";
+import MainChat from "./MainChat";
 
 const socket = io("http://localhost:3001");
 
@@ -133,122 +135,25 @@ export default function Chat() {
       <div
         style={{ display: "flex", height: "100vh", fontFamily: "sans-serif" }}
       >
-        {/* Sidebar */}
-        <div
-          style={{
-            width: "250px",
-            borderRight: "1px solid #ccc",
-            padding: "10px",
-            overflowY: "auto",
-          }}
-        >
-          <h3>Conversations</h3>
-          {conversationUsers.length === 0 ? (
-            <p>No messages yet.</p>
-          ) : (
-            conversationUsers.map((user) => {
-              return (
-                <div
-                  key={user.id}
-                  onClick={() => {
-                    setRecipientId(user.id);
-                    setIsChatStarted(true);
-                  }}
-                  style={{
-                    padding: "10px",
-                    marginBottom: "5px",
-                    cursor: "pointer",
-                    backgroundColor:
-                      recipientId === user.id ? "#f0f0f0" : "transparent",
-                  }}
-                >
-                  {user.name}
-                </div>
-              );
-            })
-          )}
-        </div>
+        <UserListSidebar
+          setRecipientId={setRecipientId}
+          conversationUsers={conversationUsers}
+          setIsChatStarted={setIsChatStarted}
+          recipientId={recipientId}
+        />
 
-        {/* Main Chat */}
-        <div style={{ flex: 1, padding: "20px" }}>
-          <h2>Welcome, {currentUser.name}</h2>
-
-          {!isChatStarted ? (
-            <div>
-              <input
-                type="text"
-                placeholder="Enter recipient user ID"
-                value={recipientId}
-                onChange={(e) => setRecipientId(e.target.value)}
-                style={{ padding: "8px", width: "300px" }}
-              />
-              <button
-                onClick={() => {
-                  if (recipientId.trim()) setIsChatStarted(true);
-                }}
-                style={{ marginLeft: "10px", padding: "8px" }}
-              >
-                Start Chat
-              </button>
-            </div>
-          ) : (
-            <>
-              {/* <h3>Chat with: {recipientId}</h3> */}
-              <div
-                style={{
-                  border: "1px solid #ccc",
-                  padding: "10px",
-                  height: "60vh",
-                  overflowY: "scroll",
-                  marginBottom: "10px",
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "10px",
-                }}
-              >
-                {(chats[roomId] || []).map((msg, i) => {
-                  const isMe = msg.startsWith("Me:");
-
-                  const displayMsg = isMe
-                    ? msg.replace("Me: ", "")
-                    : msg.replace(/.*?: /, "");
-
-                  return (
-                    <div
-                      key={i}
-                      style={{
-                        alignSelf: isMe ? "flex-end" : "flex-start",
-                        backgroundColor: isMe ? "#007bff" : "#f44336", // blue for me, red for others
-                        color: "#fff",
-                        padding: "10px 15px",
-                        borderRadius: "20px",
-                        maxWidth: "60%",
-                        wordBreak: "break-word",
-                      }}
-                    >
-                      {displayMsg}
-                    </div>
-                  );
-                })}
-              </div>
-
-              <div>
-                <input
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  placeholder="Type message..."
-                  style={{ width: "70%", padding: "8px" }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") sendMessage();
-                  }}
-                />
-                <button onClick={sendMessage} style={{ padding: "8px" }}>
-                  Send
-                </button>
-              </div>
-            </>
-          )}
-        </div>
+        <MainChat
+          setRecipientId={setRecipientId}
+          setIsChatStarted={setIsChatStarted}
+          currentUser={currentUser}
+          isChatStarted={isChatStarted}
+          recipientId={recipientId}
+          chats={chats}
+          roomId={roomId}
+          message={message}
+          sendMessage={sendMessage}
+          setMessage={setMessage}
+        />
       </div>
     </div>
   );
