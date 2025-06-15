@@ -19,6 +19,8 @@ const {
 const {
   uploadCodeStandards,
   getCodeStandardsForUser,
+  getCodeStandardsById,
+  updateCodeStandards,
 } = require("./controllers/codeStandardsController");
 
 const clientUrl = process.env.CLIENT_API_URL || "http://localhost:5173";
@@ -40,6 +42,8 @@ app.get("/api/v1/reviews/:reportId", getReportById);
 
 // code standards
 app.post("/api/v1/codeStandards", uploadCodeStandards);
-app.get("/api/v1/codeStandards", getCodeStandardsForUser);
+app.get("/api/v1/codeStandards/:userId", getCodeStandardsForUser);
+app.get("/api/v1/codeStandards/byId/:id", getCodeStandardsById);
+app.patch("/api/v1/codeStandards", updateCodeStandards);
 
 module.exports = app;

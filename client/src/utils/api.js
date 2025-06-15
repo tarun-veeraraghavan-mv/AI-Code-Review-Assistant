@@ -69,11 +69,12 @@ export async function getAllReportsForUser(userId) {
   }
 }
 
-export async function codeStandardsUpload(codeStandards, userId) {
+export async function codeStandardsUpload(codeStandards, fileName, userId) {
   try {
     const res = await axios.post(`${BACKEND_URL}/api/v1/codeStandards`, {
       userId,
       codeStandards,
+      fileName,
     });
 
     return res.data;
@@ -83,10 +84,28 @@ export async function codeStandardsUpload(codeStandards, userId) {
 }
 
 export async function getCodeStandardsForUser(userId) {
-  const res = await axios.get(`${BACKEND_URL}/api/v1/codeStandards`, {
-    userId,
-  });
+  const res = await axios.get(`${BACKEND_URL}/api/v1/codeStandards/${userId}`);
   console.log(res.data);
+
+  return res.data;
+}
+
+export async function getCodeStandardsById(id) {
+  const res = await axios.get(`${BACKEND_URL}/api/v1/codeStandards/byId/${id}`);
+  console.log(res.data);
+
+  return res.data;
+}
+
+export async function updateCodeStandards(id, codeStandards) {
+  const res = await axios.patch(`${BACKEND_URL}/api/v1/codeStandards`, {
+    id,
+    codeStandards,
+  });
+
+  console.log(codeStandards);
+
+  console.log("UPDATED CODE: ", res);
 
   return res.data;
 }

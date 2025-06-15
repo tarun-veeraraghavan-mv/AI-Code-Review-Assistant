@@ -8,6 +8,7 @@ import Login from "./components/auth/Login";
 import ReportList from "./components/reports/ReportList";
 import AppToaster from "./ui/AppToaster";
 import Chat from "./components/chat/Chat";
+import ChangeCodeStandards from "./components/code-standards/ChangeCodeStandards";
 
 function App() {
   return (
@@ -19,6 +20,10 @@ function App() {
           <Route path="/docs" element={<Docs />} />
           <Route path="/report" element={<ReportList />} />
           <Route path="/report/:reportId" element={<Reports />} />
+          <Route
+            path="/change-code-standards/:id"
+            element={<ChangeCodeStandards />}
+          />
           <Route path="/chat" element={<Chat />} />
           <Route path="/signin" element={<Signin />} />
           <Route path="/login" element={<Login />} />

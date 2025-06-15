@@ -22,7 +22,7 @@ exports.createReport = async (req, res) => {
   const { code, codeStandards, userId } = req.body;
 
   const openrouterApiKey =
-    "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";
+    "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";
 
   const openrouterApiUrl = "https://openrouter.ai/api/v1/chat/completions";
 

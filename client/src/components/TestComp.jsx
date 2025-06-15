@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useInputs } from "../hooks/useInputs";
 import CodeEditorPanel from "./code-editor/CodeEditorPanel";
-import CodeStandardsUpload from "./CodeStandardsUpload";
+import CodeStandardsUpload from "./code-standards/CodeStandardsUpload";
 
 import Navbar from "../ui/Navbar";
 import CodeEditorUtils from "./code-editor/CodeEditorUtils";
@@ -17,9 +17,6 @@ export default function TestComp() {
     theme: "vs-dark",
   });
   const [currentCellIndex, setCurrentCellIndex] = useState(0);
-  const [fileContent, setFileContent] = useState(
-    "User did not provide any standards!!"
-  );
 
   function handleDeleteCell(index) {
     const res = window.confirm(
@@ -34,7 +31,7 @@ export default function TestComp() {
     <div style={{ padding: "10px" }}>
       <Navbar />
 
-      <CodeStandardsUpload setFileContent={setFileContent} />
+      <CodeStandardsUpload />
 
       <div
         style={{
@@ -59,7 +56,7 @@ export default function TestComp() {
                   <CodeEditorUtils
                     inputs={inputs}
                     index={index}
-                    codeStandardss={fileContent}
+                    // codeStandardss={fileContent}
                     updateInput={updateInput}
                     clearInput={clearInput}
                   />
